@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Saathi - Connect. Learn. Code.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
+            background-size: 300% 300%;
+            animation: gradientShift 8s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .chatbot {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .chatbot.open {
+            max-height: 400px;
+        }
+        
+        .typing-indicator {
+            display: none;
+        }
+        
+        .typing-indicator.show {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+        
+        .bounce-animation {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .blink-animation {
+            animation: blink 3s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 90%, 100% { opacity: 1; }
+            95% { opacity: 0; }
+        }
+        
+        .wave-left {
+            animation: wave 1.5s ease-in-out infinite;
+            transform-origin: 42px 90px;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-white">
+                        <img src="Screenshot 2025-07-25 172837.png" alt="👨‍💻" height="60" width="60">
+                    </div>
+                    <div>
+                        <p style="color: white; font-size: 28px; font-weight: bold; margin-left: 10px;">Code Saathi</p>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#home" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <a href="#mentors" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium transition-colors">Mentors</a>
+                        <a href="#contact" class="text-white hover:text-yellow-300 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                        <button class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-lg hover:from-yellow-500 hover:to-orange-600 transition-all transform hover:scale-105">Get Started</button>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-white hover:text-yellow-300">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden bg-gradient-to-r from-purple-700 via-pink-600 to-red-600 border-t border-white border-opacity-20">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#home" class="block px-3 py-2 text-white hover:text-yellow-300">Home</a>
+                <a href="#mentors" class="block px-3 py-2 text-white hover:text-yellow-300">Mentors</a>
+                <a href="#contact" class="block px-3 py-2 text-white hover:text-yellow-300">Contact</a>
+                <button class="w-full text-left bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-2 rounded-lg hover:from-yellow-500 hover:to-orange-600 transition-all">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="gradient-bg text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center fade-in">
+                <!-- Animated Coding Mascot -->
+                <div class="mb-8 flex justify-center">
+                    <div class="relative">
+                        <svg width="160" height="160" viewBox="0 0 160 160" class="bounce-animation">
+                            <!-- Mascot Body (softer, rounder) -->
+                            <ellipse cx="80" cy="100" rx="42" ry="36" fill="#FFB6C1" stroke="#FF69B4" stroke-width="2"/>
+                            <!-- Mascot Head (bigger and rounder) -->
+                            <circle cx="80" cy="56" r="36" fill="#FFD1DC" stroke="#FFB6C1" stroke-width="2"/>
+                            <!-- Cute cheeks -->
+                            <circle cx="60" cy="64" r="8" fill="#FF91A4" opacity="0.6"/>
+                            <circle cx="100" cy="64" r="8" fill="#FF91A4" opacity="0.6"/>
+                            <!-- Big sparkly eyes -->
+                            <circle cx="69" cy="50" r="8" fill="white"/>
+                            <circle cx="91" cy="50" r="8" fill="white"/>
+                            <circle cx="69" cy="50" r="5" fill="black" class="blink-animation"/>
+                            <circle cx="91" cy="50" r="5" fill="black" class="blink-animation"/>
+                            <!-- Eye sparkles -->
+                            <circle cx="72" cy="48" r="2" fill="white"/>
+                            <circle cx="94" cy="48" r="2" fill="white"/>
+                            <!-- Happy smile -->
+                            <path d="M 64 70 Q 80 82 96 70" stroke="#FF1493" stroke-width="4" fill="none" stroke-linecap="round"/>
+                            <!-- Cute little nose -->
+                            <ellipse cx="80" cy="61" rx="3" ry="1.5" fill="#FF69B4"/>
+                            <!-- Left arm (waving) -->
+                            <ellipse cx="42" cy="90" rx="15" ry="10" fill="#FFD1DC" class="wave-left"/>
+                            <!-- Right arm -->
+                            <ellipse cx="118" cy="90" rx="15" ry="10" fill="#FFD1DC"/>
+                            <!-- Left hand (waving) -->
+                            <g class="wave-left">
+                                <circle cx="36" cy="96" r="8" fill="#FFB6C1"/>
+                                <!-- Waving fingers -->
+                                <rect x="32" y="88" width="2" height="6" rx="1" fill="#FFB6C1"/>
+                                <rect x="35" y="86" width="2" height="8" rx="1" fill="#FFB6C1"/>
+                                <rect x="38" y="87" width="2" height="7" rx="1" fill="#FFB6C1"/>
+                                <rect x="41" y="89" width="2" height="5" rx="1" fill="#FFB6C1"/>
+                            </g>
+                            <!-- Right hand -->
+                            <circle cx="124" cy="96" r="8" fill="#FFB6C1"/>
+                            <!-- Adorable laptop -->
+                            <rect x="60" y="106" width="40" height="24" rx="4" fill="#87CEEB"/>
+                            <rect x="63" y="109" width="34" height="16" rx="2" fill="#98FB98"/>
+                            <!-- Heart on screen instead of code -->
+                            <text x="80" y="120" text-anchor="middle" fill="#FF1493" font-size="10">💖</text>
+                            <!-- Cute little feet -->
+                            <ellipse cx="66" cy="133" rx="10" ry="6" fill="#FFB6C1"/>
+                            <ellipse cx="94" cy="133" rx="10" ry="6" fill="#FFB6C1"/>
+                        </svg>
+                        <!-- Speech bubble -->
+                        <div class="absolute -top-2 -right-8 bg-white text-purple-600 px-3 py-1 rounded-lg text-sm font-medium shadow-lg">
+                            Let's code! 🚀
+                        </div>
+                    </div>
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    Connect. Learn. <span class="text-yellow-300">Code.</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-indigo-100 max-w-3xl mx-auto">
+                    Join Code Saathi and connect with experienced mentors who will guide you through your coding journey. From beginner to expert, we've got you covered.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-gradient-to-r from-pink-500 to-violet-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-pink-600 hover:to-violet-700 transition-all transform hover:scale-105 pulse-animation shadow-lg">
+                        Find a Mentor
+                    </button>
+                    <button class="bg-gradient-to-r from-emerald-400 to-cyan-500 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-emerald-500 hover:to-cyan-600 transition-all transform hover:scale-105 shadow-lg">
+                        Become a Mentor
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Choose Code Saathi?</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">We make learning to code accessible, personalized, and effective</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-6 card-hover bg-gradient-to-br from-purple-400 to-pink-400 text-white rounded-xl shadow-lg relative">
+                    <!-- Cartoon Helper 1 -->
+                    <div class="absolute -top-4 -right-4">
+                        <svg width="60" height="60" viewBox="0 0 60 60" class="pulse-animation">
+                            <circle cx="30" cy="30" r="25" fill="#FFD93D" stroke="#FFC107" stroke-width="2"/>
+                            <circle cx="24" cy="25" r="3" fill="black"/>
+                            <circle cx="36" cy="25" r="3" fill="black"/>
+                            <path d="M 22 35 Q 30 42 38 35" stroke="black" stroke-width="2" fill="none"/>
+                            <rect x="25" y="15" width="10" height="8" rx="2" fill="#8B5CF6"/>
+                            <text x="30" y="20" text-anchor="middle" fill="white" font-size="8">📚</text>
+                        </svg>
+                    </div>
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="text-xl font-semibold mb-3">Personalized Learning</h3>
+                    <p class="text-purple-100">Get matched with mentors who understand your goals and learning style</p>
+                </div>
+                <div class="text-center p-6 card-hover bg-gradient-to-br from-blue-400 to-cyan-400 text-white rounded-xl shadow-lg relative">
+                    <!-- Cartoon Helper 2 -->
+                    <div class="absolute -top-4 -right-4">
+                        <svg width="60" height="60" viewBox="0 0 60 60" class="pulse-animation">
+                            <circle cx="30" cy="30" r="25" fill="#4ECDC4" stroke="#26D0CE" stroke-width="2"/>
+                            <circle cx="24" cy="25" r="3" fill="black"/>
+                            <circle cx="36" cy="25" r="3" fill="black"/>
+                            <circle cx="30" cy="35" r="8" fill="none" stroke="black" stroke-width="2"/>
+                            <rect x="20" y="12" width="20" height="12" rx="2" fill="#1E40AF"/>
+                            <rect x="22" y="14" width="16" height="8" rx="1" fill="#3B82F6"/>
+                            <text x="30" y="19" text-anchor="middle" fill="white" font-size="6">⚡CODE</text>
+                        </svg>
+                    </div>
+                    <div class="text-4xl mb-4">⚡</div>
+                    <h3 class="text-xl font-semibold mb-3">Real-time Support</h3>
+                    <p class="text-blue-100">Get instant help when you're stuck with live coding sessions</p>
+                </div>
+                <div class="text-center p-6 card-hover bg-gradient-to-br from-green-400 to-emerald-400 text-white rounded-xl shadow-lg relative">
+                    <!-- Cartoon Helper 3 -->
+                    <div class="absolute -top-4 -right-4">
+                        <svg width="60" height="60" viewBox="0 0 60 60" class="pulse-animation">
+                            <circle cx="30" cy="30" r="25" fill="#10B981" stroke="#059669" stroke-width="2"/>
+                            <circle cx="24" cy="25" r="3" fill="black"/>
+                            <circle cx="36" cy="25" r="3" fill="black"/>
+                            <path d="M 20 35 Q 30 45 40 35" stroke="black" stroke-width="2" fill="none"/>
+                            <polygon points="30,10 35,20 25,20" fill="#F59E0B"/>
+                            <rect x="28" y="20" width="4" height="8" fill="#D97706"/>
+                        </svg>
+                    </div>
+                    <div class="text-4xl mb-4">🚀</div>
+                    <h3 class="text-xl font-semibold mb-3">Career Growth</h3>
+                    <p class="text-green-100">Build projects and skills that land you your dream tech job</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mentors Section -->
+    <section id="mentors" class="py-20 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Meet Our Expert Mentors</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Learn from industry professionals with years of experience</p>
+            </div>
+            
+            <!-- Mentor/Mentee Toggle -->
+            <div class="flex justify-center mb-12">
+                <div class="bg-white rounded-lg p-1 shadow-lg border-2 border-purple-200">
+                    <button id="mentors-tab" class="px-6 py-3 rounded-md font-medium transition-all bg-gradient-to-r from-purple-500 to-pink-500 text-white transform hover:scale-105">
+                        Mentors
+                    </button>
+                    <button id="mentees-tab" class="px-6 py-3 rounded-md font-medium transition-all text-purple-600 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white">
+                        Success Stories
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mentors Grid -->
+            <div id="mentors-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover slide-in">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                            AS
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold">Aishwarya Oberoi</h3>
+                            <p class="text-gray-600">Senior Full Stack Developer</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">React</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Node.js</span>
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">MongoDB</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">5+ years at Google. Specializes in scalable web applications and mentoring junior developers.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="text-yellow-400">⭐⭐⭐⭐⭐</span>
+                            <span class="ml-2 text-sm text-gray-600">(47 reviews)</span>
+                        </div>
+                        <button class="bg-gradient-to-r from-orange-400 to-red-500 text-white px-4 py-2 rounded-lg hover:from-orange-500 hover:to-red-600 transition-all transform hover:scale-105 shadow-md">
+                            Connect
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover slide-in">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-gradient-to-r from-pink-500 to-red-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                            PK
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold">Priya Kapoor</h3>
+                            <p class="text-gray-600">Data Science Lead</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Python</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">TensorFlow</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">ML</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">AI researcher at Microsoft. Passionate about making machine learning accessible to everyone.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="text-yellow-400">⭐⭐⭐⭐⭐</span>
+                            <span class="ml-2 text-sm text-gray-600">(32 reviews)</span>
+                        </div>
+                        <button class="bg-gradient-to-r from-orange-400 to-red-500 text-white px-4 py-2 rounded-lg hover:from-orange-500 hover:to-red-600 transition-all transform hover:scale-105 shadow-md">
+                            Connect
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover slide-in">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                            RG
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold">Rahul Gupta</h3>
+                            <p class="text-gray-600">Mobile App Developer</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Flutter</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">React Native</span>
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">iOS</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Published 15+ apps on App Store. Expert in cross-platform mobile development.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="text-yellow-400">⭐⭐⭐⭐⭐</span>
+                            <span class="ml-2 text-sm text-gray-600">(28 reviews)</span>
+                        </div>
+                        <button class="bg-gradient-to-r from-orange-400 to-red-500 text-white px-4 py-2 rounded-lg hover:from-orange-500 hover:to-red-600 transition-all transform hover:scale-105 shadow-md">
+                            Connect
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Stories Grid (Hidden by default) -->
+            <div id="mentees-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                            SK
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold">Sneha Kumar</h3>
+                            <p class="text-gray-600">Now at Amazon</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"Code Saathi helped me transition from marketing to software development. My mentor guided me through every step!"</p>
+                    <div class="text-sm text-indigo-600 font-medium">Journey: 8 months → Software Engineer</div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-gradient-to-r from-teal-500 to-blue-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                            VT
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold">Vikram Thakur</h3>
+                            <p class="text-gray-600">Startup Founder</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"The mentorship I received helped me build my first app which now has 100K+ users. Forever grateful!"</p>
+                    <div class="text-sm text-indigo-600 font-medium">Journey: 6 months → Successful App Launch</div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                            AM
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold">Anita Mehta</h3>
+                            <p class="text-gray-600">Data Scientist at Netflix</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">"From zero coding knowledge to landing my dream job in data science. The personalized guidance was incredible!"</p>
+                    <div class="text-sm text-indigo-600 font-medium">Journey: 10 months → Data Scientist</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Get in Touch</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Have questions? We're here to help you start your coding journey</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Contact Form -->
+                <div class="bg-gradient-to-br from-white to-blue-50 rounded-xl p-8 shadow-lg border border-blue-200">
+                    <h3 class="text-2xl font-semibold mb-6 text-blue-800">Send us a Message</h3>
+                    <p class="text-sm text-gray-600 mb-6 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                        📝 <strong>Demo Form:</strong> This is a sample contact form for demonstration purposes. In a real application, form submissions would be processed by a backend server.
+                    </p>
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                                <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent" placeholder="John" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                                <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent" placeholder="Doe" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent" placeholder="john@example.com" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">I'm interested in</label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                <option>Finding a Mentor</option>
+                                <option>Becoming a Mentor</option>
+                                <option>Partnership Opportunities</option>
+                                <option>General Inquiry</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                            <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent" placeholder="Tell us about your coding goals..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all transform hover:scale-105 font-medium shadow-lg">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Chatbot -->
+                <div class="bg-gradient-to-br from-white to-purple-50 rounded-xl p-8 shadow-lg border border-purple-200">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-semibold text-purple-800">Quick Help</h3>
+                        <button id="chatbot-toggle" class="bg-gradient-to-r from-green-500 to-teal-600 text-white px-4 py-2 rounded-lg hover:from-green-600 hover:to-teal-700 transition-all transform hover:scale-105 shadow-md">
+                            💬 Chat Now
+                        </button>
+                    </div>
+                    
+                    <div id="chatbot" class="chatbot">
+                        <div class="bg-white rounded-lg shadow-sm border h-80 flex flex-col">
+                            <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-t-lg">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-3">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" class="pulse-animation">
+                                            <rect x="6" y="8" width="12" height="10" rx="2" fill="#4F46E5"/>
+                                            <circle cx="9" cy="12" r="1.5" fill="white"/>
+                                            <circle cx="15" cy="12" r="1.5" fill="white"/>
+                                            <rect x="11" y="14" width="2" height="1" fill="white"/>
+                                            <rect x="8" y="6" width="8" height="2" rx="1" fill="#6366F1"/>
+                                            <circle cx="7" cy="7" r="1" fill="#10B981"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium">Code Saathi Bot</div>
+                                        <div class="text-xs text-indigo-200">Online</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3">
+                                <div class="flex">
+                                    <div class="bg-gray-100 rounded-lg p-3 max-w-xs">
+                                        <p class="text-sm">Hi! I'm here to help you get started with Code Saathi. What would you like to know?</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="typing-indicator p-4">
+                                <div class="flex items-center space-x-1">
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                    <span class="text-sm text-gray-500 ml-2">Bot is typing...</span>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 border-t">
+                                <div class="flex space-x-2">
+                                    <input id="chat-input" type="text" placeholder="Type your message..." class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm">
+                                    <button id="send-message" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105">
+                                        Send
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 space-y-3">
+                        <h4 class="font-medium text-gray-900">Quick Questions:</h4>
+                        <div class="space-y-2">
+                            <button class="quick-question w-full text-left p-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg hover:from-blue-100 hover:to-cyan-100 transition-all text-sm border border-blue-200 hover:border-blue-300 transform hover:scale-105">
+                                How do I find the right mentor?
+                            </button>
+                            <button class="quick-question w-full text-left p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg hover:from-green-100 hover:to-emerald-100 transition-all text-sm border border-green-200 hover:border-green-300 transform hover:scale-105">
+                                What programming languages do you cover?
+                            </button>
+                            <button class="quick-question w-full text-left p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg hover:from-purple-100 hover:to-pink-100 transition-all text-sm border border-purple-200 hover:border-purple-300 transform hover:scale-105">
+                                How much does mentorship cost?
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 justify-center text-center">
+                <div>
+                    <h4 class="font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Find Mentors</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Become a Mentor</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Success Stories</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Community</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4 justify-center">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">📧</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">🐦</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">💼</a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">📱</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2025 Code Saathi. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Mentor/Mentee tab switching
+        const mentorsTab = document.getElementById('mentors-tab');
+        const menteesTab = document.getElementById('mentees-tab');
+        const mentorsGrid = document.getElementById('mentors-grid');
+        const menteesGrid = document.getElementById('mentees-grid');
+
+        mentorsTab.addEventListener('click', () => {
+            mentorsTab.classList.add('bg-gradient-to-r', 'from-purple-500', 'to-pink-500', 'text-white');
+            mentorsTab.classList.remove('text-purple-600');
+            menteesTab.classList.remove('bg-gradient-to-r', 'from-purple-500', 'to-pink-500', 'text-white');
+            menteesTab.classList.add('text-purple-600');
+            mentorsGrid.classList.remove('hidden');
+            menteesGrid.classList.add('hidden');
+        });
+
+        menteesTab.addEventListener('click', () => {
+            menteesTab.classList.add('bg-gradient-to-r', 'from-purple-500', 'to-pink-500', 'text-white');
+            menteesTab.classList.remove('text-purple-600');
+            mentorsTab.classList.remove('bg-gradient-to-r', 'from-purple-500', 'to-pink-500', 'text-white');
+            mentorsTab.classList.add('text-purple-600');
+            menteesGrid.classList.remove('hidden');
+            mentorsGrid.classList.add('hidden');
+        });
+
+        // Contact form submission
+        const contactForm = document.getElementById('contact-form');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! This is a demo form. In a real application, your message would be sent to our team.');
+        });
+
+        // Chatbot functionality
+        const chatbotToggle = document.getElementById('chatbot-toggle');
+        const chatbot = document.getElementById('chatbot');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const sendMessage = document.getElementById('send-message');
+        const typingIndicator = document.querySelector('.typing-indicator');
+        const quickQuestions = document.querySelectorAll('.quick-question');
+
+        let chatOpen = false;
+
+        chatbotToggle.addEventListener('click', () => {
+            chatOpen = !chatOpen;
+            if (chatOpen) {
+                chatbot.classList.add('open');
+                chatbotToggle.textContent = '✕ Close Chat';
+            } else {
+                chatbot.classList.remove('open');
+                chatbotToggle.textContent = '💬 Chat Now';
+            }
+        });
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${isUser ? 'justify-end' : ''}`;
+            
+            const messageBubble = document.createElement('div');
+            messageBubble.className = `${isUser ? 'bg-indigo-600 text-white' : 'bg-gray-100'} rounded-lg p-3 max-w-xs`;
+            messageBubble.innerHTML = `<p class="text-sm">${message}</p>`;
+            
+            messageDiv.appendChild(messageBubble);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTyping() {
+            typingIndicator.classList.add('show');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTyping() {
+            typingIndicator.classList.remove('show');
+        }
+
+        function getBotResponse(message) {
+            const responses = {
+                'how do i find the right mentor?': 'Great question! We match you based on your goals, experience level, and preferred programming languages. You can browse mentor profiles and read reviews to find the perfect fit.',
+                'what programming languages do you cover?': 'We cover all major languages including JavaScript, Python, Java, C++, React, Node.js, Flutter, and many more! Our mentors specialize in web development, mobile apps, data science, and AI.',
+                'how much does mentorship cost?': 'Our pricing is flexible! We offer different plans starting from ₹999/month for group sessions to ₹2999/month for 1-on-1 mentorship. Many mentors also offer free initial consultations.',
+                'default': 'Thanks for your question! Our team will get back to you soon. You can also browse our mentor profiles or check out our success stories to learn more about Code Saathi.'
+            };
+
+            const lowerMessage = message.toLowerCase();
+            return responses[lowerMessage] || responses['default'];
+        }
+
+        function handleMessage(message) {
+            if (message.trim() === '') return;
+            
+            addMessage(message, true);
+            chatInput.value = '';
+            
+            showTyping();
+            
+            setTimeout(() => {
+                hideTyping();
+                const response = getBotResponse(message);
+                addMessage(response);
+            }, 1500);
+        }
+
+        sendMessage.addEventListener('click', () => {
+            handleMessage(chatInput.value);
+        });
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleMessage(chatInput.value);
+            }
+        });
+
+        quickQuestions.forEach(button => {
+            button.addEventListener('click', () => {
+                const question = button.textContent;
+                if (!chatOpen) {
+                    chatbotToggle.click();
+                }
+                setTimeout(() => {
+                    handleMessage(question);
+                }, 300);
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.fade-in, .slide-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'964b795e760791b8',t:'MTc1MzQ0NDU4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
