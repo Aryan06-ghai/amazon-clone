@@ -24,4 +24,8 @@
 4. Professional gradient design with consistent branding
 5. Form validation and interactive elements
 
-Try clicking the "Chat Now" button to test the chatbot, or switch between the "Mentors" and "Success Stories" tabs to see the different profile sections! The site is fully functional and ready to help connect learners with coding mentors.
+Try clicking the "Chat Now" button to test the chatbot, or switch between the "Mentors" and "Success Stories" tabs to see the different profile sections! The site is fully functional and ready to help connect learners with coding mentors.  
+
+## 🌐 Live Demo
+
+👉 [Click here to view the live website](https://aryan06-ghai.github.io/project-website-cs/)
