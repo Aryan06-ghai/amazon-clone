@@ -3,19 +3,19 @@
 ✨**Key Features:**
 
 **Clean Homepage**
- with compelling hero section and clear CTAs
+ with compelling hero section and clear CTAs  
 **Interactive Mentor/Mentee Section**
- with detailed profile cards and success stories
+ with detailed profile cards and success stories  
 **Functional Contact Form**
- (clearly marked as demo) and interactive chatbot
+ (clearly marked as demo) and interactive chatbot  
 **Fully Responsive Design**
- that works beautifully on all devices
+ that works beautifully on all devices  
 **Smooth Animations**
- and hover effects throughout
+ and hover effects throughout  
 **Accessibility Features**
- with proper contrast and keyboard navigation
+ with proper contrast and keyboard navigation  
  **Animated Character**
- waving its hand and enhancing the overall look of the website
+ waving its hand and enhancing the overall look of the website  
  
 🎯 **Special Touches:**
 1. Toggle between mentor profiles and success stories
