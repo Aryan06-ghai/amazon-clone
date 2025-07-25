@@ -28,4 +28,4 @@ Try clicking the "Chat Now" button to test the chatbot, or switch between the "M
 
 ## 🌐 Live Demo
 
-👉 [Click here to view the live website](https://aryan06-ghai.github.io/project-website-cs/)
+👉 [Click here to view the live website](https://aryan06-ghai.github.io/project-website-cs/?v=2)
