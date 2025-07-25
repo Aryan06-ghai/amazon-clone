@@ -1,19 +1,27 @@
-## 🛒 Amazon Clone – HTML & CSS
+## Code Saathi Website
 
-This project is a static clone of the Amazon India homepage, built using only **HTML and CSS**. The goal was to replicate the core layout, styling, and user experience of the original site — without using any JavaScript.
+✨**Key Features:**
 
-### 💡 Features
+**Clean Homepage**
+ with compelling hero section and clear CTAs
+**Interactive Mentor/Mentee Section**
+ with detailed profile cards and success stories
+**Functional Contact Form**
+ (clearly marked as demo) and interactive chatbot
+**Fully Responsive Design**
+ that works beautifully on all devices
+**Smooth Animations**
+ and hover effects throughout
+**Accessibility Features**
+ with proper contrast and keyboard navigation
+ **Animated Character**
+ waving its hand and enhancing the overall look of the website
+ 
+🎯 **Special Touches:**
+1. Toggle between mentor profiles and success stories
+2. Working chatbot with predefined responses and quick questions
+3. Mobile-friendly navigation with hamburger menu
+4. Professional gradient design with consistent branding
+5. Form validation and interactive elements
 
-- **Header Section**: Contains a top navigation bar with the Amazon logo, a search bar, location info, cart icon, etc. — mimicking the real Amazon nav bar.
-- **Main Content**: Displays product cards in a grid layout with images, product names, and "See More" links.
-- **Footer Section**: Includes standard links like *About Us*, *Contact Us*, *Privacy Policy*, and *Terms of Service*.
-- **Styling**: Colors and styling inspired by the original Amazon website — using Amazon’s signature orange, black, and white tones.
-
-### 📁 How to Run
-
-1. Clone or download the repository.
-2. Open the folder in **Visual Studio Code** or any code editor.
-3. All images are provided — stored in an `images/` folder.
-4. Make sure `index.html` and `style.css` are placed correctly in the root directory.
-
-This is only the **homepage clone** for now. More features and interactivity may be added in the future using JavaScript.
+Try clicking the "Chat Now" button to test the chatbot, or switch between the "Mentors" and "Success Stories" tabs to see the different profile sections! The site is fully functional and ready to help connect learners with coding mentors.
